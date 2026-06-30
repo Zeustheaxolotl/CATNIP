@@ -341,6 +341,10 @@ class AstroObject():
             'or_ims': Original (projected) imagery.
         '''
         valid_plot_types = ['avgrad','rad','az','rad_az','deprj_ims','or_ims']
+        #Fix can now ask to make one plot
+        if type(self.plot_types) == str: 
+            self.plot_types = [self.plot_types]
+            
         for plot in self.plot_types:
             if plot not in valid_plot_types:
                 del self.plot_types[self.plot_types.index(plot)]
@@ -489,10 +493,10 @@ class AstroObject():
         # Set fig title string (there's probably a nicer way to do this...)
         if self.preview: self.fig_title = f'Image Preview for {self.name}'
         else:
-            if any(plot in self.plot_types for plot in ['rad', 'az']) and any(plot in self.plot_types for plot in ['rad_az', 'deprj_ims', 'or_ims']):
+            if any(plot in self.plot_types for plot in ['rad', 'az', 'avgrad']) and any(plot in self.plot_types for plot in ['rad_az', 'deprj_ims', 'or_ims']):
                 self.fig_title = f'{self.name}'#self.fig_title = f'Multiwavelength Intensity Profiles and High-Resolution Imagery for {self.name}'
             else:
-                if any(plot in self.plot_types for plot in ['rad', 'az']):
+                if any(plot in self.plot_types for plot in ['rad', 'az', 'avgrad']):
                     self.fig_title = f'Multiwavelength Intensity Profiles for {self.name}'
                 elif any(plot in self.plot_types for plot in ['rad_az', 'deprj_ims', 'or_ims']):
                     self.fig_title = f'High-Resolution Imagery for {self.name}'
